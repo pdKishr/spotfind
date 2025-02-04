@@ -1,9 +1,10 @@
 package com.mvp.spotfind.service;
 
 import com.mvp.spotfind.dto.UserDto;
+import com.mvp.spotfind.dto.UserTokenDataDto;
 
 public interface UserService {
     UserDto createUser(UserDto dto);
-    Long login(String mobileNumber,String password);
+    UserTokenDataDto login(String mobileNumber, String password);
     UserDto updateUser(Long id ,UserDto dto);
 }

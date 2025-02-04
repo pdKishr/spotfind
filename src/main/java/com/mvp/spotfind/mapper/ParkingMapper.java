@@ -1,5 +1,6 @@
 package com.mvp.spotfind.mapper;
 import com.mvp.spotfind.dto.ParkingDto;
+import com.mvp.spotfind.dto.ParkingTokenDataDto;
 import com.mvp.spotfind.entity.Parking;
 
 public class ParkingMapper {
@@ -22,6 +23,10 @@ public class ParkingMapper {
                 p.getIsAvailableFor24Hours(),p.getOpenTime(),p.getCloseTime()
         );
 
+    }
+
+    public static ParkingTokenDataDto toParkingTokenDataDto(Parking p){
+        return new ParkingTokenDataDto(p.getId(),p.getRole());
     }
 
 }

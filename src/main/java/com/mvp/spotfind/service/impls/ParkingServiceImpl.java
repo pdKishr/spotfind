@@ -1,6 +1,7 @@
 package com.mvp.spotfind.service.impls;
 import com.mvp.spotfind.Exceptionpack.UserNotFoundException;
 import com.mvp.spotfind.dto.ParkingDto;
+import com.mvp.spotfind.dto.ParkingTokenDataDto;
 import com.mvp.spotfind.entity.Parking;
 import com.mvp.spotfind.mapper.ParkingMapper;
 import com.mvp.spotfind.repository.ParkingRepository;
@@ -27,12 +28,12 @@ public class ParkingServiceImpl implements ParkingService {
         return ParkingMapper.toDto(savedParking);
     }
 
-    public Long login(String mobileNumber, String password){
+    public ParkingTokenDataDto login(String mobileNumber, String password){
           Parking p = parkingRepository
                 .findByMobileNumberAndPassword(mobileNumber, password)
                 .orElseThrow(() -> new UserNotFoundException("Parking not found with mobile number: " + mobileNumber));
 
-      return p.getId();
+      return ParkingMapper.toParkingTokenDataDto(p);
     }
 
     @Override

@@ -27,19 +27,10 @@ public class ParkingController {
         this.offlineBookingService = offlineBookingService;
     }
 
-    @PostMapping
-    public ResponseEntity<ParkingDto> createParking(@Valid @RequestBody ParkingDto dto){
-
-        ParkingDto dto1 = service.createParking(dto);
-        return ResponseEntity.ok(dto1);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, Long>> login(@RequestHeader String mobilenumber , @RequestHeader String password){
-          Long id = service.login(mobilenumber, password);
-          Map<String,Long> map = new HashMap<>();
-          map.put("Id",id);
-          return ResponseEntity.ok(map);
+    @GetMapping()
+    public ResponseEntity<String> dummy(@RequestHeader  String word){
+      //  ParkingDto dto1 = service.updateParking( id , dto);
+        return ResponseEntity.ok(word);
     }
 
     @PutMapping("/update")

@@ -1,28 +1,16 @@
 package com.mvp.spotfind.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class LoginDto {
     private String mobileNumber;
-    private String email ;
     private String password;
-
-    public LoginDto(){
-
-    }
-
-    public LoginDto(String email,String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public LoginDto(String mobileNumber){
-        this.mobileNumber = mobileNumber;
-        this.password = password;
-
-    }
 }

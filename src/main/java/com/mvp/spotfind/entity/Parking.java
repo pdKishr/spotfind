@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -16,7 +20,7 @@ import java.util.List;
 @Entity
 @Table(name="parking_spots")
 
-public class Parking {
+public class Parking implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long    id;
@@ -55,6 +59,7 @@ public class Parking {
     private List<Booking> bookings = new ArrayList<>();
     private Integer availableBikeSpots;
     private Integer availableCarSpots;
+    private String role = "PARKING";
 
     public Parking(String email, String password, String mobileNumber, String parkingName, String owner, String location,String address , String city, String state, Boolean isBikeParkingAvailable, Boolean isCarParkingAvailable, Boolean isAvailableFor24Hours, Integer noOfBikeSpots, Integer noOfCarSpots, Integer bikeCharge, Integer carCharge, String openTime, String closeTime) {
         this.email = email;
@@ -77,5 +82,15 @@ public class Parking {
         this.closeTime = closeTime;
         this.availableBikeSpots = noOfBikeSpots;
         this.availableCarSpots  = noOfCarSpots;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of((new SimpleGrantedAuthority(this.getRole())));
+    }
+
+    @Override
+    public String getUsername() {
+        return String.valueOf(this.getId());
     }
 }
