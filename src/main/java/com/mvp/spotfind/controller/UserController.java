@@ -1,5 +1,6 @@
 package com.mvp.spotfind.controller;
 
+import com.mvp.spotfind.dto.AdminParkingViewDto;
 import com.mvp.spotfind.dto.BookingDto;
 import com.mvp.spotfind.dto.ParkingDto;
 import com.mvp.spotfind.dto.UserDto;
@@ -56,5 +57,12 @@ public class UserController {
         ParkingDto dto = parkingService.getParkingById(id);
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/getAllParking")
+    public ResponseEntity<List<ParkingDto>> getAllParking(){
+        List<ParkingDto> dto = parkingService.getAllApprovedParking();
+        return ResponseEntity.ok(dto);
+    }
+
 
 }

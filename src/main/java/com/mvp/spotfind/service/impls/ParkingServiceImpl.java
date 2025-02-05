@@ -1,5 +1,6 @@
 package com.mvp.spotfind.service.impls;
 import com.mvp.spotfind.Exceptionpack.UserNotFoundException;
+import com.mvp.spotfind.dto.AdminParkingViewDto;
 import com.mvp.spotfind.dto.ParkingDto;
 import com.mvp.spotfind.dto.ParkingTokenDataDto;
 import com.mvp.spotfind.entity.Parking;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParkingServiceImpl implements ParkingService {
@@ -68,6 +72,29 @@ public class ParkingServiceImpl implements ParkingService {
     public ParkingDto getParkingById(Long id) {
         Parking p = parkingRepository.findById(id).orElseThrow(()-> new UserNotFoundException("parking not found with id "+id));
         return ParkingMapper.toDto(p);
+    }
+
+    @Override
+    public List<AdminParkingViewDto> getAllParking(){
+        List<Parking> parkings = parkingRepository.findAll();
+        List<AdminParkingViewDto> dtos = new ArrayList<>();
+        for(Parking p : parkings){
+            dtos.add(ParkingMapper.toAdminParkingViewDto(p));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<ParkingDto> getAllApprovedParking() {
+        List<Parking> parkings = parkingRepository.findAllByApproved(true);
+        if(parkings.isEmpty()) return List.of();
+
+        List<ParkingDto> dto = new ArrayList<>();
+        for(Parking p : parkings){
+            dto.add(ParkingMapper.toDto(p));
+        }
+
+        return dto;
     }
 
 

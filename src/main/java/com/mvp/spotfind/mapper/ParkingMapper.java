@@ -1,4 +1,6 @@
 package com.mvp.spotfind.mapper;
+
+import com.mvp.spotfind.dto.AdminParkingViewDto;
 import com.mvp.spotfind.dto.ParkingDto;
 import com.mvp.spotfind.dto.ParkingTokenDataDto;
 import com.mvp.spotfind.entity.Parking;
@@ -27,6 +29,14 @@ public class ParkingMapper {
 
     public static ParkingTokenDataDto toParkingTokenDataDto(Parking p){
         return new ParkingTokenDataDto(p.getId(),p.getRole());
+    }
+
+    public static AdminParkingViewDto toAdminParkingViewDto(Parking p){
+        return  new AdminParkingViewDto(p.getEmail(),p.getPassword(),p.getMobileNumber(),p.getParkingName(),
+                p.getOwner(),p.getLocation(),p.getAddress(),p.getCity(),p.getState(),p.getIsBikeParkingAvailable(),p.getNoOfBikeSpots(),
+                p.getBikeCharge(),p.getIsCarParkingAvailable(),p.getNoOfCarSpots(),p.getCarCharge(),
+                p.getIsAvailableFor24Hours(),p.getOpenTime(),p.getCloseTime() , p.getApproved()
+        );
     }
 
 }
