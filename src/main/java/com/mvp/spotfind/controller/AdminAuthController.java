@@ -1,7 +1,7 @@
 package com.mvp.spotfind.controller;
 
 import com.mvp.spotfind.dto.AdminDataTokenDto;
-import com.mvp.spotfind.security.JwtUtil;
+import com.mvp.spotfind.JwtUtilPackage.JwtUtil;
 import com.mvp.spotfind.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

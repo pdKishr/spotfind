@@ -2,7 +2,7 @@ package com.mvp.spotfind.controller;
 
 import com.mvp.spotfind.dto.ParkingDto;
 import com.mvp.spotfind.dto.ParkingTokenDataDto;
-import com.mvp.spotfind.security.JwtUtil;
+import com.mvp.spotfind.JwtUtilPackage.JwtUtil;
 import com.mvp.spotfind.service.ParkingService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

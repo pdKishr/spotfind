@@ -1,4 +1,4 @@
-package com.mvp.spotfind.config;
+package com.mvp.spotfind.SecurityConfig;
 import com.mvp.spotfind.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

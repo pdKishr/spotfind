@@ -1,4 +1,4 @@
-package com.mvp.spotfind.security_service;
+package com.mvp.spotfind.service.impls;
 
 import com.mvp.spotfind.entity.Admin;
 import com.mvp.spotfind.entity.Parking;
@@ -13,14 +13,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final ParkingRepository parkingRepository;
     private final AdminRepository adminRepository;
 
     @Autowired
-    public CustomUserDetailsService(UserRepository userRepository, ParkingRepository parkingRepository, AdminRepository adminRepository) {
+    public CustomUserDetailsServiceImpl(UserRepository userRepository, ParkingRepository parkingRepository, AdminRepository adminRepository) {
         this.userRepository = userRepository;
         this.parkingRepository = parkingRepository;
         this.adminRepository = adminRepository;
@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String idAsString) throws UsernameNotFoundException {
         Long id = Long.parseLong(idAsString);
-;        User user = userRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id).orElse(null);
         if(user != null) return user;
 
         Parking parking = parkingRepository.findById(id).orElse(null);

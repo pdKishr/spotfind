@@ -1,4 +1,4 @@
-package com.mvp.spotfind.config;
+package com.mvp.spotfind.SecurityConfig;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

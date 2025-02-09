@@ -27,12 +27,6 @@ public class ParkingController {
         this.offlineBookingService = offlineBookingService;
     }
 
-    @GetMapping()
-    public ResponseEntity<String> dummy(@RequestHeader  String word){
-      //  ParkingDto dto1 = service.updateParking( id , dto);
-        return ResponseEntity.ok(word);
-    }
-
     @PutMapping("/update")
     public ResponseEntity<ParkingDto> update(@RequestHeader Long id,@Valid @RequestBody ParkingDto dto){
         ParkingDto dto1 = service.updateParking( id , dto);
