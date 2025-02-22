@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ParkingRepository extends JpaRepository<Parking,Long> {
-    Optional<Parking> findByMobileNumberAndPassword(String mobileNumber,String password);
     List<Parking> findAllByApproved(Boolean approved);
+    List<Parking> findByOwnerId(Long ownerId);
 }

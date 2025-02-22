@@ -13,13 +13,11 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class UserDto {
-        @NotNull
-        private String name;
-        @NotNull @Length(min = 10, max=10)
-        private String mobileNumber;
-        @NotNull @Email
-        private String email;
-        @NotNull
-        private String password;
+public class UserProfileUpdateDto {
+    @NotNull
+    private String name;
+    @NotNull @Length(min = 10, max=10)
+    private String mobileNumber;
+    @NotNull @Email
+    private String email;
 }

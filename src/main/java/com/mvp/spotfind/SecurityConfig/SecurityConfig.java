@@ -35,12 +35,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf(AbstractHttpConfigurer::disable)  // CSRF is disabled in JWT authentication
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/user/**").hasAuthority("USER")
-                        .requestMatchers("/api/parking/**").hasAuthority("PARKING")
+                        .requestMatchers("/api/parking/**").hasAuthority("USER")
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()  // Other requests require authentication
                 )

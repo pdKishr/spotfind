@@ -1,6 +1,7 @@
 package com.mvp.spotfind.mapper;
 
 import com.mvp.spotfind.dto.UserDto;
+import com.mvp.spotfind.dto.UserProfileUpdateDto;
 import com.mvp.spotfind.dto.UserTokenDataDto;
 import com.mvp.spotfind.entity.User;
 

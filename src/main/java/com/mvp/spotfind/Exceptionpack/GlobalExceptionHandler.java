@@ -27,26 +27,25 @@ public class GlobalExceptionHandler {
         }
 
         response.put("status","error");
-        response.put("errors" , errors);
+        response.put("error" , errors);
         return new ResponseEntity<>(response , HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String,String>> handlerAtDatabaseLevel(DataIntegrityViolationException exp){
-        if (exp.getMessage().contains("email")) {
-            Map<String,String> map = new HashMap<>();
-            map.put("error " , "email already exists");
-            return new ResponseEntity<>(map, HttpStatus.CONFLICT);
-        }
-
         if (exp.getMessage().contains("mobile_number")) {
             Map<String,String> map = new HashMap<>();
-            map.put("error " , "mobile number already exists");
+            map.put("error" , "mobile number already exists");
+            return new ResponseEntity<>(map, HttpStatus.CONFLICT);
+        }
+        if (exp.getMessage().contains("email")) {
+            Map<String, String> map = new HashMap<>();
+            map.put("error", "mobile number or email already exists");
             return new ResponseEntity<>(map, HttpStatus.CONFLICT);
         }
 
         Map<String,String> map = new HashMap<>();
-        map.put("error " , exp.getMessage());
+        map.put("error" , exp.getMessage());
         return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
 
     }
@@ -54,14 +53,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String,String>> handleUserNotFound(UserNotFoundException ex){
         Map<String,String> map = new HashMap<>();
-        map.put("error " , ex.getMessage());
+        map.put("error" , ex.getMessage());
         return new ResponseEntity<>(map ,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BookingFullException.class)
     public ResponseEntity<Map<String,String>> handleBookingFull(BookingFullException ex){
         Map<String,String> map = new HashMap<>();
-        map.put("error " , ex.getMessage());
+        map.put("error" , ex.getMessage());
         return new ResponseEntity<>(map ,HttpStatus.NOT_FOUND);
     }
 
@@ -73,6 +72,4 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.METHOD_NOT_ALLOWED);
     }
-
-
 }

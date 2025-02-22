@@ -1,5 +1,6 @@
 package com.mvp.spotfind.dto;
 
+import com.mvp.spotfind.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,16 +15,13 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 
 public class ParkingDto {
+    private Long id;
     @NotNull @Email
     private String email;
-    @NotNull @Length(min= 8)
-    private String password;
     @NotNull @Length(min=10 ,max=10)
     private String mobileNumber;
     @NotNull
     private String parkingName;
-    @NotNull
-    private String  owner;
     @NotNull
     private String  location;
     @NotNull
@@ -45,11 +43,9 @@ public class ParkingDto {
     @NotNull
     private Integer carCharge;
     @NotNull
-    private Boolean    isAvailableFor24Hours;
+    private Boolean isAvailableFor24Hours;
     @NotNull
     private String  openTime;
     @NotNull
     private String  closeTime;
-
-
 }

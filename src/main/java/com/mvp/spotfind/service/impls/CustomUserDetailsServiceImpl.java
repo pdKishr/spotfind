@@ -16,13 +16,11 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final ParkingRepository parkingRepository;
     private final AdminRepository adminRepository;
 
     @Autowired
-    public CustomUserDetailsServiceImpl(UserRepository userRepository, ParkingRepository parkingRepository, AdminRepository adminRepository) {
+    public CustomUserDetailsServiceImpl(UserRepository userRepository, AdminRepository adminRepository) {
         this.userRepository = userRepository;
-        this.parkingRepository = parkingRepository;
         this.adminRepository = adminRepository;
     }
 
@@ -32,13 +30,10 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findById(id).orElse(null);
         if(user != null) return user;
 
-        Parking parking = parkingRepository.findById(id).orElse(null);
-        if(parking != null) return parking;
-
         Admin admin = adminRepository.findById(id).orElse(null);
         if(admin != null) return admin;
 
-        throw new UsernameNotFoundException("user or parking or admin not found with id :"+ id);
+        throw new UsernameNotFoundException("user or admin not found with id :"+ id);
     }
 
 }

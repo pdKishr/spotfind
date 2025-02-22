@@ -22,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(name="lot_user")
+@Table(name="app_user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,8 @@ public class User implements UserDetails {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings = new ArrayList<>();
+    @OneToMany(mappedBy = "owner" , cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Parking> parkings = new ArrayList<>();
     private String role = "USER";
 
 

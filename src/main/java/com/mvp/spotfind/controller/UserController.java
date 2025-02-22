@@ -1,9 +1,9 @@
 package com.mvp.spotfind.controller;
 
-import com.mvp.spotfind.dto.AdminParkingViewDto;
 import com.mvp.spotfind.dto.BookingDto;
 import com.mvp.spotfind.dto.ParkingDto;
 import com.mvp.spotfind.dto.UserDto;
+import com.mvp.spotfind.dto.UserProfileUpdateDto;
 import com.mvp.spotfind.service.BookingService;
 import com.mvp.spotfind.service.ParkingService;
 import com.mvp.spotfind.service.UserService;
@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/user")
+
 public class UserController {
+
     private final UserService    userService;
     private final BookingService bookingService;
     private final ParkingService parkingService;
@@ -28,8 +31,14 @@ public class UserController {
         this.parkingService = parkingService;
     }
 
+    @GetMapping("/get_user_details")
+    public ResponseEntity<UserDto> getUser(@RequestParam  Long id){
+        UserDto dto = userService.getUser(id);
+        return ResponseEntity.ok(dto);
+    }
+
     @PutMapping("/update")
-    public ResponseEntity<UserDto> update(@RequestHeader Long id,@RequestBody @Valid UserDto dto){
+    public ResponseEntity<UserDto> update(@RequestHeader Long id, @RequestBody @Valid UserProfileUpdateDto dto){
          UserDto dto1 = userService.updateUser(id,dto);
          return ResponseEntity.ok(dto1);
     }
@@ -63,6 +72,5 @@ public class UserController {
         List<ParkingDto> dto = parkingService.getAllApprovedParking();
         return ResponseEntity.ok(dto);
     }
-
 
 }

@@ -1,15 +1,15 @@
 package com.mvp.spotfind.entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 @Getter
@@ -20,18 +20,18 @@ import java.util.List;
 @Entity
 @Table(name="parking_spots")
 
-public class Parking implements UserDetails {
+public class Parking  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long    id;
-    @Column(unique = true)
     private String email;
-    private String password;
-    @Column(name="mobile_number" , unique = true)
+    @Column(name="mobile_number")
     private String mobileNumber;
     @Column(name="parking_name")
     private String  parkingName;
-    private String  owner;
+    @ManyToOne
+    @JoinColumn(name="owner_id" , referencedColumnName = "id")
+    private User owner;
     private String  location;
     private String  address;
     private String  city;
@@ -59,11 +59,10 @@ public class Parking implements UserDetails {
     private List<Booking> bookings = new ArrayList<>();
     private Integer availableBikeSpots;
     private Integer availableCarSpots;
-    private String role = "PARKING";
 
-    public Parking(String email, String password, String mobileNumber, String parkingName, String owner, String location,String address , String city, String state, Boolean isBikeParkingAvailable, Boolean isCarParkingAvailable, Boolean isAvailableFor24Hours, Integer noOfBikeSpots, Integer noOfCarSpots, Integer bikeCharge, Integer carCharge, String openTime, String closeTime) {
+    public Parking(@NotNull  Long id,@NotNull @Email String email, @NotNull @Length(min=10 ,max=10) String mobileNumber, @NotNull String parkingName, User owner, @NotNull String location, @NotNull String address, @NotNull String city, @NotNull String state, @NotNull Boolean isBikeParkingAvailable, @NotNull Boolean isCarParkingAvailable, @NotNull Boolean isAvailableFor24Hours, @NotNull Integer noOfBikeSpots, @NotNull Integer noOfCarSpots, @NotNull Integer bikeCharge, @NotNull Integer carCharge, @NotNull String openTime, @NotNull String closeTime) {
+        this.id = id;
         this.email = email;
-        this.password = password;
         this.mobileNumber = mobileNumber;
         this.parkingName = parkingName;
         this.owner = owner;
@@ -84,13 +83,4 @@ public class Parking implements UserDetails {
         this.availableCarSpots  = noOfCarSpots;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of((new SimpleGrantedAuthority(this.getRole())));
-    }
-
-    @Override
-    public String getUsername() {
-        return String.valueOf(this.getId());
-    }
 }

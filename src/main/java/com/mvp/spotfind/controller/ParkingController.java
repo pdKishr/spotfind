@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("api/parking")
 public class ParkingController {
@@ -25,6 +26,18 @@ public class ParkingController {
         this.service = service;
         this.bookingService = bookingService;
         this.offlineBookingService = offlineBookingService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<ParkingDto> createParking(@Valid @RequestBody ParkingDto dto, @RequestParam Long id){
+        ParkingDto dto1 = service.createParking(dto,id);
+        return ResponseEntity.ok(dto1);
+    }
+
+    @GetMapping("/getAllParkingById")
+    public ResponseEntity<List<ParkingDto>> getAllParkingBYId(@RequestParam Long id){
+       List<ParkingDto> list = service.getAllParkingById(id);
+       return ResponseEntity.ok(list);
     }
 
     @PutMapping("/update")

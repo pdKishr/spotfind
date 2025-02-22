@@ -2,10 +2,11 @@ package com.mvp.spotfind.service.impls;
 import com.mvp.spotfind.Exceptionpack.UserNotFoundException;
 import com.mvp.spotfind.dto.AdminParkingViewDto;
 import com.mvp.spotfind.dto.ParkingDto;
-import com.mvp.spotfind.dto.ParkingTokenDataDto;
 import com.mvp.spotfind.entity.Parking;
+import com.mvp.spotfind.entity.User;
 import com.mvp.spotfind.mapper.ParkingMapper;
 import com.mvp.spotfind.repository.ParkingRepository;
+import com.mvp.spotfind.repository.UserRepository;
 import com.mvp.spotfind.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,29 +16,27 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ParkingServiceImpl implements ParkingService {
 
     private ParkingRepository parkingRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public ParkingServiceImpl(ParkingRepository parkingRepository){this.parkingRepository = parkingRepository;}
-
-    @Override
-    public ParkingDto createParking(ParkingDto dto) {
-        Parking p = ParkingMapper.toEntity(dto);
-        Parking savedParking = parkingRepository.save(p);
-        return ParkingMapper.toDto(savedParking);
+    public ParkingServiceImpl(ParkingRepository parkingRepository, UserRepository userRepository){
+        this.parkingRepository = parkingRepository;
+        this.userRepository = userRepository;
     }
 
-    public ParkingTokenDataDto login(String mobileNumber, String password){
-          Parking p = parkingRepository
-                .findByMobileNumberAndPassword(mobileNumber, password)
-                .orElseThrow(() -> new UserNotFoundException("Parking not found with mobile number: " + mobileNumber));
+    @Override
+    public ParkingDto createParking(ParkingDto parkingDTO, Long owner_id) {
+        User owner = userRepository.findById(owner_id).orElseThrow(()-> new UserNotFoundException("UserNotFound"));
 
-      return ParkingMapper.toParkingTokenDataDto(p);
+        Parking parking = ParkingMapper.toEntity(parkingDTO, owner);
+        Parking savedParking = parkingRepository.save(parking);
+
+        return ParkingMapper.toDto(savedParking);
     }
 
     @Override
@@ -87,6 +86,19 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public List<ParkingDto> getAllApprovedParking() {
         List<Parking> parkings = parkingRepository.findAllByApproved(true);
+        if(parkings.isEmpty()) return List.of();
+
+        List<ParkingDto> dto = new ArrayList<>();
+        for(Parking p : parkings){
+            dto.add(ParkingMapper.toDto(p));
+        }
+
+        return dto;
+    }
+
+    @Override
+    public List<ParkingDto> getAllParkingById(Long ownerId) {
+        List<Parking> parkings = parkingRepository.findByOwnerId(ownerId);
         if(parkings.isEmpty()) return List.of();
 
         List<ParkingDto> dto = new ArrayList<>();

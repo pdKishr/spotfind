@@ -2,6 +2,7 @@ package com.mvp.spotfind.service.impls;
 
 import com.mvp.spotfind.Exceptionpack.UserNotFoundException;
 import com.mvp.spotfind.dto.UserDto;
+import com.mvp.spotfind.dto.UserProfileUpdateDto;
 import com.mvp.spotfind.dto.UserTokenDataDto;
 import com.mvp.spotfind.entity.User;
 import com.mvp.spotfind.mapper.UserMapper;
@@ -31,15 +32,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserTokenDataDto login(String mobileNumber, String password) {
         User user = userRepository.findByMobileNumberAndPassword(mobileNumber, password)
-                .orElseThrow(() -> new UserNotFoundException("Parking not found with mobile number: " + mobileNumber));
+                .orElseThrow(() -> new UserNotFoundException("User not found with mobile number: " + mobileNumber +" or password mismatch"));
         return UserMapper.toUserTokenDataDto(user);
     }
 
     @Override
-    public UserDto updateUser( Long id ,UserDto dto) {
+    public UserDto getUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("UserNotFound"));
+        return UserMapper.toDto((user));
+    }
+
+    @Override
+    public UserDto updateUser(Long id , UserProfileUpdateDto dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()->new UserNotFoundException("User not found with id: " + id));
-        for(Field field: UserDto.class.getDeclaredFields()){
+        for(Field field: UserProfileUpdateDto.class.getDeclaredFields()){
             field.setAccessible(true);
 
             try{

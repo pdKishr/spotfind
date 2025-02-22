@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/auth/user")
+@RequestMapping("/api/auth/user")
+
 public class UserAuthController {
 
     private final UserService  userService;
@@ -38,6 +40,7 @@ public class UserAuthController {
         String token = jwtUtil.generateToken(dto.getId(), dto.getRole());
         Map<String,String> map = new HashMap<>();
         map.put("token",token);
+        map.put("id",Long.toString(dto.getId()));
 
         return ResponseEntity.ok(map);
     }
