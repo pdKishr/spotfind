@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth/admin")
+@RequestMapping("/api/auth/admin")
 public class AdminAuthController {
     private final AdminService service;
     private final JwtUtil jwtUtil;
