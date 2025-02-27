@@ -41,8 +41,9 @@ public class ParkingController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ParkingDto> update(@RequestHeader Long id,@Valid @RequestBody ParkingDto dto){
-        ParkingDto dto1 = service.updateParking( id , dto);
+    public ResponseEntity<ParkingDto> update(@Valid @RequestBody ParkingDto dto){
+        System.out.println("reacheing here 123");
+        ParkingDto dto1 = service.updateParking( dto.getId(), dto);
         return ResponseEntity.ok(dto1);
     }
 
@@ -55,8 +56,8 @@ public class ParkingController {
     }
 
     @GetMapping("/booking/online")
-    public ResponseEntity<List<BookingDto>> getBookingByParkingId(@RequestHeader Long id){
-       List<BookingDto> list = bookingService.getBookingByParking(id);
+    public ResponseEntity<List<BookingDto>> getBookingByParkingId(@RequestParam Long parkingId){
+       List<BookingDto> list = bookingService.getBookingByParking(parkingId);
        return ResponseEntity.ok(list);
     }
 
@@ -73,8 +74,8 @@ public class ParkingController {
     }
 
     @GetMapping("/booking/offline")
-    public ResponseEntity<List<OfflineBookingDto>>  getOfflineBookingsByparking(@RequestHeader Long id){
-        List<OfflineBookingDto> list = offlineBookingService.getTicketByParking(id);
+    public ResponseEntity<List<OfflineBookingDto>>  getOfflineBookingsByparking(@RequestParam Long parkingId){
+        List<OfflineBookingDto> list = offlineBookingService.getTicketByParking(parkingId);
         return ResponseEntity.ok(list);
     }
 
@@ -85,5 +86,9 @@ public class ParkingController {
         map.put("msg","checkedOut successfully");
         return ResponseEntity.ok(map);
     }
+
+
+
+
 
 }

@@ -55,14 +55,13 @@ public class UserController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("/booking/get-booking")
-    public ResponseEntity<List<BookingDto>> showTickets(@RequestHeader Long id){
+    @GetMapping("/booking/get-booking") public ResponseEntity<List<BookingDto>> showTickets(@RequestParam Long id){
              List<BookingDto> list = bookingService.getBookingByUser(id);
              return ResponseEntity.ok(list);
     }
 
     @GetMapping("/getparking")
-    public ResponseEntity<ParkingDto> getParking(@RequestHeader Long id){
+    public ResponseEntity<ParkingDto> getParking(@RequestParam Long id){
         ParkingDto dto = parkingService.getParkingById(id);
         return ResponseEntity.ok(dto);
     }
@@ -70,6 +69,12 @@ public class UserController {
     @GetMapping("/getAllParking")
     public ResponseEntity<List<ParkingDto>> getAllParking(){
         List<ParkingDto> dto = parkingService.getAllApprovedParking();
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/getParkingByFilter")
+    public ResponseEntity<List<ParkingDto>> getParkings(@RequestParam String location , @RequestParam String vehicleType, @RequestParam String city ){
+        List<ParkingDto> dto = parkingService.getParkingByFilter(location,vehicleType,city);
         return ResponseEntity.ok(dto);
     }
 

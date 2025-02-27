@@ -22,6 +22,7 @@ public class AdminAuthController {
         this.service = service;
         this.jwtUtil = jwtUtil;
     }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String,String>> login(@RequestHeader String mobilenumber, @RequestHeader String password){
 

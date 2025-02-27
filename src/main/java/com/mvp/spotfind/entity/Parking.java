@@ -60,8 +60,8 @@ public class Parking  {
     private Integer availableBikeSpots;
     private Integer availableCarSpots;
 
-    public Parking(@NotNull  Long id,@NotNull @Email String email, @NotNull @Length(min=10 ,max=10) String mobileNumber, @NotNull String parkingName, User owner, @NotNull String location, @NotNull String address, @NotNull String city, @NotNull String state, @NotNull Boolean isBikeParkingAvailable, @NotNull Boolean isCarParkingAvailable, @NotNull Boolean isAvailableFor24Hours, @NotNull Integer noOfBikeSpots, @NotNull Integer noOfCarSpots, @NotNull Integer bikeCharge, @NotNull Integer carCharge, @NotNull String openTime, @NotNull String closeTime) {
-        this.id = id;
+    public Parking(@NotNull @Email String email, @NotNull @Length(min=10 ,max=10) String mobileNumber, @NotNull String parkingName, User owner, @NotNull String location, @NotNull String address, @NotNull String city, @NotNull String state, @NotNull Boolean isBikeParkingAvailable, @NotNull Boolean isCarParkingAvailable, @NotNull Boolean isAvailableFor24Hours, @NotNull Integer noOfBikeSpots, @NotNull Integer noOfCarSpots, @NotNull Integer bikeCharge, @NotNull Integer carCharge, @NotNull String openTime, @NotNull String closeTime) {
+
         this.email = email;
         this.mobileNumber = mobileNumber;
         this.parkingName = parkingName;
@@ -79,8 +79,9 @@ public class Parking  {
         this.carCharge = carCharge;
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.availableBikeSpots = noOfBikeSpots;
-        this.availableCarSpots  = noOfCarSpots;
+        this.availableBikeSpots = this.noOfBikeSpots;
+        this.availableCarSpots  = this.noOfCarSpots;
     }
+
 
 }

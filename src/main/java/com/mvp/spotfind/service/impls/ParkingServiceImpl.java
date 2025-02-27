@@ -41,10 +41,13 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public ParkingDto updateParking(Long id, ParkingDto dto) {
+
         Parking p = parkingRepository.findById(id).orElseThrow(()-> new UserNotFoundException("parking not found"));
 
-        for(Field field : ParkingDto.class.getDeclaredFields()){
+       for(Field field : ParkingDto.class.getDeclaredFields()){
             field.setAccessible(true); // setting private field accessible
+
+           if (field.getName().equals("id")) continue;
 
             try{
                 Object value = field.get(dto);
@@ -62,6 +65,8 @@ public class ParkingServiceImpl implements ParkingService {
                 throw new RuntimeException(e);
             }
         }
+
+
 
         Parking updatedParking = parkingRepository.save(p);
         return ParkingMapper.toDto(updatedParking);
@@ -107,6 +112,25 @@ public class ParkingServiceImpl implements ParkingService {
         }
 
         return dto;
+    }
+
+    @Override
+    public List<ParkingDto> getParkingByFilter(String location, String vehicleType, String city) {
+
+        List<Parking> parkings;
+
+        if(vehicleType.equals("car"))
+             parkings   = parkingRepository.findByLocationAndCityAndApprovedAndIsCarParkingAvailable(location,city,true, true);
+        else{
+            parkings = parkingRepository.findByLocationAndCityAndApprovedAndIsBikeParkingAvailable(location,city,true,true);
+        }
+
+        if(parkings.isEmpty()) return List.of();
+
+        List<ParkingDto> dtos = new ArrayList<>();
+        for(Parking p : parkings) dtos.add(ParkingMapper.toDto(p));
+
+        return dtos;
     }
 
 

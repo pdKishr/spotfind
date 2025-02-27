@@ -48,4 +48,7 @@ public class ParkingDto {
     private String  openTime;
     @NotNull
     private String  closeTime;
+    private Integer availableBikeSpots;
+    private Integer availableCarSpots;
+
 }
