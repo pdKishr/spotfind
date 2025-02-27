@@ -11,6 +11,8 @@ import com.mvp.spotfind.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -42,6 +44,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void approveAllParking() {
-         parkingRepository.approveAll();
+        List<Parking> parkings = parkingRepository.findAll();
+        parkings.forEach(parking -> parking.setApproved(true));
+        parkingRepository.saveAll(parkings);
     }
 }

@@ -29,7 +29,7 @@ public class AdminController {
         return ResponseEntity.ok(map);
     }
 
-    @PostMapping("/approve_all")
+    @PostMapping("/approveAll")
     public ResponseEntity<String> approveAll(){
         adminService.approveAllParking();
         return ResponseEntity.ok("success");
