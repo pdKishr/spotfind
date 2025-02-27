@@ -29,6 +29,13 @@ public class AdminController {
         return ResponseEntity.ok(map);
     }
 
+    @PostMapping("/approve_all")
+    public ResponseEntity<String> approveAll(){
+        adminService.approveAllParking();
+        return ResponseEntity.ok("success");
+    }
+
+
     @GetMapping("/getAllParking")
     public ResponseEntity<List<AdminParkingViewDto>> getAllParking(){
         List<AdminParkingViewDto> list = parkingService.getAllParking();

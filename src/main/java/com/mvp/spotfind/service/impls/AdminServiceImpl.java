@@ -30,11 +30,18 @@ public class AdminServiceImpl implements AdminService {
          parkingRepository.save(park);
     }
 
+
+
     @Override
     public AdminDataTokenDto login(String mobileNumber, String password) {
         Admin admin = adminRepository.findByMobileNumberAndPassword(mobileNumber,password).orElseThrow(
                 ()-> new UserNotFoundException("admin not found with mobile number :"+ mobileNumber)
         );
         return AdminMapper.adminDataTokenDto(admin);
+    }
+
+    @Override
+    public void approveAllParking() {
+         parkingRepository.approveAll();
     }
 }
