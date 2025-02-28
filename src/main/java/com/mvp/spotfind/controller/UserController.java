@@ -73,8 +73,10 @@ public class UserController {
 
     @GetMapping("/getParkingByFilter")
     public ResponseEntity<List<ParkingDto>> getParkings(@RequestParam String location , @RequestParam String vehicleType, @RequestParam String city ){
-        List<ParkingDto> dto = parkingService.getParkingByFilter(location,vehicleType,city);
+        List<ParkingDto> dto = parkingService.getparking(location,city,vehicleType);
         return ResponseEntity.ok(dto);
     }
+
+
 
 }

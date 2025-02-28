@@ -13,4 +13,5 @@ public interface ParkingService {
     List<ParkingDto> getAllApprovedParking();
     List<ParkingDto> getAllParkingById(Long id);
     List<ParkingDto> getParkingByFilter(String location, String vehicleType , String city);
+    List<ParkingDto> getparking(String location , String city ,String vehicleType );
 }

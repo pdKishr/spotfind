@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ParkingServiceImpl implements ParkingService {
@@ -133,5 +134,16 @@ public class ParkingServiceImpl implements ParkingService {
         return dtos;
     }
 
+    @Override
+    public List<ParkingDto> getparking(String location, String city, String vehicleType) {
+        location = location.toLowerCase();
+        city = city.toLowerCase();
+        vehicleType = vehicleType.toLowerCase();
+
+        List<Parking> parkings = parkingRepository.searchParking(location,city,vehicleType);
+        if(parkings.isEmpty()) return List.of();
+
+        return parkings.stream().map(ParkingMapper::toDto).collect(Collectors.toList());
+    }
 
 }
