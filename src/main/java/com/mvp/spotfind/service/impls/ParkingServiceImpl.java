@@ -136,8 +136,6 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public List<ParkingDto> getparking(String location, String city, String vehicleType) {
-        location = location.toLowerCase();
-        city = city.toLowerCase();
         vehicleType = vehicleType.toLowerCase();
 
         List<Parking> parkings = parkingRepository.searchParking(location,city,vehicleType);

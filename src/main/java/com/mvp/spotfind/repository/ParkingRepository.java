@@ -14,13 +14,10 @@ public interface ParkingRepository extends JpaRepository<Parking,Long> {
     List<Parking> findByLocationAndCityAndApprovedAndIsCarParkingAvailable  (String location , String city, Boolean approved , Boolean isCarParkingAvailable);
 
     @Query("SELECT P FROM Parking P WHERE P.approved = true AND " +
-            "( LOWER(P.city) LIKE LOWER(CONCAT('%', :keyword1, '%')) OR " +
-            "  LOWER(P.location) LIKE LOWER(CONCAT('%', :keyword1, '%')) OR " +
-            "  LOWER(P.address) LIKE LOWER(CONCAT('%', :keyword1, '%')) OR " +
-            "  LOWER(P.city) LIKE LOWER(CONCAT('%', :keyword2, '%')) OR " +
-            "  LOWER(P.location) LIKE LOWER(CONCAT('%', :keyword2, '%')) OR " +
-            "  LOWER(P.address) LIKE LOWER(CONCAT('%', :keyword2, '%'))) AND " +
+            "(LOWER(:city) = LOWER(P.city)) AND " +
+            "(LOWER(P.location) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            " LOWER(P.address) LIKE LOWER(CONCAT('%',  :keyword, '%'))) AND " +
             "((:vehicle = 'car' AND P.isCarParkingAvailable = true) OR " +
             " (:vehicle = 'bike' AND P.isBikeParkingAvailable = true))")
-    List<Parking> searchParking(@Param("keyword1") String keyword1, @Param("keyword2") String keyword2 , @Param("vehicle") String vehicle);
+    List<Parking> searchParking(@Param("keyword") String keyword,@Param("city") String city,  @Param("vehicle") String vehicle);
 }
