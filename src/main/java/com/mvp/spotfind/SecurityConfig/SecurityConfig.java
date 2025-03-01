@@ -40,6 +40,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // CSRF is disabled in JWT authentication
@@ -64,7 +65,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://spotfind.vercel.app" )); // Change * to specific domains if needed
+        configuration.setAllowedOrigins(List.of("https://spotfind.vercel.app" ,"http://192.168.0.100:5173", "http://localhost:5173")); // Change * to specific domains if needed
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "*")); // ✅ Explicitly allow custom headers
         configuration.setExposedHeaders(List.of("Authorization"));

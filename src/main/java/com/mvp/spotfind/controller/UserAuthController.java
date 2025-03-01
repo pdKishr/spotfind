@@ -1,5 +1,6 @@
 package com.mvp.spotfind.controller;
 
+import com.mvp.spotfind.dto.LoginDto;
 import com.mvp.spotfind.dto.UserDto;
 import com.mvp.spotfind.dto.UserTokenDataDto;
 import com.mvp.spotfind.JwtUtilPackage.JwtUtil;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth/user")
-
+@CrossOrigin("http:/localhost/5173")
 public class UserAuthController {
 
     private final UserService  userService;
@@ -34,9 +35,9 @@ public class UserAuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String>> login(@RequestHeader String mobilenumber, @RequestHeader String password){
+    public ResponseEntity<Map<String,String>> login(@RequestBody LoginDto loginDto){
 
-        UserTokenDataDto dto = userService.login(mobilenumber, password);
+        UserTokenDataDto dto = userService.login(loginDto.getMobileNumber(), loginDto.getPassword());
         String token = jwtUtil.generateToken(dto.getId(), dto.getRole());
         Map<String,String> map = new HashMap<>();
         map.put("token",token);
