@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-
 public class GeocodingService {
     private final JOpenCageGeocoder geocoder;
 
     // Load API Key from application.properties
-    @Value("${openCage.apikey}")
+
     private String apikey;
     public GeocodingService() {
-        this.geocoder = new JOpenCageGeocoder(apikey);
+        this.geocoder = new JOpenCageGeocoder("5b6c84f72a38418da86176484c665287");
     }
 
     public Double[] getCoordinates(String address) {
