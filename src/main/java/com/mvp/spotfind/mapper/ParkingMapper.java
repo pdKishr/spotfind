@@ -12,9 +12,8 @@ public class ParkingMapper {
         return new Parking(dto.getEmail(),dto.getMobileNumber(),dto.getParkingName(),owner,
                 dto.getLocation(),dto.getAddress(),dto.getCity(),dto.getState(),dto.getIsBikeParkingAvailable(),dto.getIsCarParkingAvailable(),
                 dto.getIsAvailableFor24Hours(),dto.getNoOfBikeSpots(),dto.getNoOfCarSpots(),dto.getBikeCharge(),dto.getCarCharge(),
-                dto.getOpenTime(),dto.getCloseTime()
+                dto.getOpenTime(),dto.getCloseTime(),dto.getLatitude(),dto.getLongitude(),dto.getPincode()
         );
-
     }
 
     public static ParkingDto toDto(Parking p){
@@ -23,7 +22,7 @@ public class ParkingMapper {
                 p.getLocation(),p.getAddress(),p.getCity(),p.getState(),p.getIsBikeParkingAvailable(),p.getNoOfBikeSpots(),
                 p.getBikeCharge(),p.getIsCarParkingAvailable(),p.getNoOfCarSpots(),p.getCarCharge(),
                 p.getIsAvailableFor24Hours(),p.getOpenTime(),p.getCloseTime() ,p.getAvailableBikeSpots() ,
-                p.getAvailableCarSpots()
+                p.getAvailableCarSpots(),p.getLatitude(),p.getLongitude(),p.getPincode()
         );
 
     }
@@ -33,7 +32,7 @@ public class ParkingMapper {
                 p.getLocation(),p.getAddress(),p.getCity(),p.getState(),p.getIsBikeParkingAvailable(),p.getNoOfBikeSpots(),
                 p.getBikeCharge(),p.getIsCarParkingAvailable(),p.getNoOfCarSpots(),p.getCarCharge(),
                 p.getIsAvailableFor24Hours(),p.getOpenTime(),p.getCloseTime() , p.getApproved(),UserMapper.toDto(p.getOwner()) ,
-                p.getAvailableBikeSpots() , p.getAvailableCarSpots()
+                p.getAvailableBikeSpots() , p.getAvailableCarSpots() , p.getLatitude(),p.getLongitude(),p.getPincode()
         );
     }
 

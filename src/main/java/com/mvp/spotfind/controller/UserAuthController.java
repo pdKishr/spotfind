@@ -4,6 +4,7 @@ import com.mvp.spotfind.dto.LoginDto;
 import com.mvp.spotfind.dto.UserDto;
 import com.mvp.spotfind.dto.UserTokenDataDto;
 import com.mvp.spotfind.JwtUtilPackage.JwtUtil;
+
 import com.mvp.spotfind.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth/user")
-@CrossOrigin("http:/localhost/5173")
 public class UserAuthController {
 
     private final UserService  userService;
     private final JwtUtil      jwtUtil;
+
 
     @Autowired
     public UserAuthController(UserService userService, JwtUtil jwtUtil) {
@@ -30,6 +31,7 @@ public class UserAuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto dto){
+
         UserDto dto1 = userService.createUser(dto);
         return ResponseEntity.ok(dto1);
     }

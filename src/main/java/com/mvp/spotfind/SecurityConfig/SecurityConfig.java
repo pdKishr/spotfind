@@ -46,6 +46,7 @@ public class SecurityConfig {
                 // CSRF is disabled in JWT authentication
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/parking/register").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/user/**").hasAuthority("USER")
                         .requestMatchers("/api/parking/**").hasAuthority("USER")

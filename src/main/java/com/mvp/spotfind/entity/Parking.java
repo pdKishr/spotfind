@@ -31,7 +31,7 @@ public class Parking  {
     private String  parkingName;
     @ManyToOne
     @JoinColumn(name="owner_id" , referencedColumnName = "id")
-    private User owner;
+    private User    owner;
     private String  location;
     private String  address;
     private String  city;
@@ -59,8 +59,11 @@ public class Parking  {
     private List<Booking> bookings = new ArrayList<>();
     private Integer availableBikeSpots;
     private Integer availableCarSpots;
+    private Double latitude;
+    private Double longitude;
+    private String pincode;
 
-    public Parking(@NotNull @Email String email, @NotNull @Length(min=10 ,max=10) String mobileNumber, @NotNull String parkingName, User owner, @NotNull String location, @NotNull String address, @NotNull String city, @NotNull String state, @NotNull Boolean isBikeParkingAvailable, @NotNull Boolean isCarParkingAvailable, @NotNull Boolean isAvailableFor24Hours, @NotNull Integer noOfBikeSpots, @NotNull Integer noOfCarSpots, @NotNull Integer bikeCharge, @NotNull Integer carCharge, @NotNull String openTime, @NotNull String closeTime) {
+    public Parking(@NotNull @Email String email, @NotNull @Length(min=10 ,max=10) String mobileNumber, @NotNull String parkingName, User owner, @NotNull String location, @NotNull String address, @NotNull String city, @NotNull String state, @NotNull Boolean isBikeParkingAvailable, @NotNull Boolean isCarParkingAvailable, @NotNull Boolean isAvailableFor24Hours, @NotNull Integer noOfBikeSpots, @NotNull Integer noOfCarSpots, @NotNull Integer bikeCharge, @NotNull Integer carCharge, @NotNull String openTime, @NotNull String closeTime,@NotNull Double latitude ,@NotNull Double longitude , @NotNull String pincode) {
 
         this.email = email;
         this.mobileNumber = mobileNumber;
@@ -81,6 +84,9 @@ public class Parking  {
         this.closeTime = closeTime;
         this.availableBikeSpots = this.noOfBikeSpots;
         this.availableCarSpots  = this.noOfCarSpots;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.pincode  = pincode;
     }
 
 

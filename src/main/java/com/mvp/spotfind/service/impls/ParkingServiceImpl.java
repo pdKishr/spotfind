@@ -1,5 +1,6 @@
 package com.mvp.spotfind.service.impls;
 import com.mvp.spotfind.Exceptionpack.UserNotFoundException;
+import com.mvp.spotfind.OpenCageMapsServices.GeocodingService;
 import com.mvp.spotfind.dto.AdminParkingViewDto;
 import com.mvp.spotfind.dto.ParkingDto;
 import com.mvp.spotfind.entity.Parking;
@@ -8,8 +9,13 @@ import com.mvp.spotfind.mapper.ParkingMapper;
 import com.mvp.spotfind.repository.ParkingRepository;
 import com.mvp.spotfind.repository.UserRepository;
 import com.mvp.spotfind.service.ParkingService;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.WKTWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -21,23 +27,34 @@ import java.util.stream.Collectors;
 @Service
 public class ParkingServiceImpl implements ParkingService {
 
-    private ParkingRepository parkingRepository;
-    private UserRepository userRepository;
+    private final GeometryFactory geometryFactory = new GeometryFactory();
+    private final ParkingRepository parkingRepository;
+    private final UserRepository userRepository;
+    private final GeocodingService geocodingService;
 
     @Autowired
-    public ParkingServiceImpl(ParkingRepository parkingRepository, UserRepository userRepository){
+    public ParkingServiceImpl(ParkingRepository parkingRepository, UserRepository userRepository, GeocodingService geocodingService){
         this.parkingRepository = parkingRepository;
         this.userRepository = userRepository;
+        this.geocodingService = geocodingService;
     }
 
     @Override
-    public ParkingDto createParking(ParkingDto parkingDTO, Long owner_id) {
-        User owner = userRepository.findById(owner_id).orElseThrow(()-> new UserNotFoundException("UserNotFound"));
+    public void createParking(ParkingDto parkingDTO, Long owner_id) {
 
-        Parking parking = ParkingMapper.toEntity(parkingDTO, owner);
-        Parking savedParking = parkingRepository.save(parking);
+        User user_owner =  userRepository.findById(owner_id).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Parking parking = ParkingMapper.toEntity(parkingDTO,user_owner);
+        String address = parking.getAddress() + ", " + parking.getCity() + ", " +
+                parking.getState() +", "+ parking.getPincode() +", India";
 
-        return ParkingMapper.toDto(savedParking);
+        Double[] coordinates = geocodingService.getCoordinates(address);
+        if(coordinates.length == 0) throw new UserNotFoundException("coordinates not found on the address");
+        parking.setLatitude(coordinates[0]);
+        parking.setLongitude(coordinates[1]);
+
+        parking = parkingRepository.save(parking);
+
+
     }
 
     @Override
@@ -116,32 +133,20 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public List<ParkingDto> getParkingByFilter(String location, String vehicleType, String city) {
+    public List<ParkingDto> getAllParkingByNearByLocation(Double latitude, Double longitude, Double radius) {
 
-        List<Parking> parkings;
+       Point searchPoint = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+        searchPoint.setSRID(4326);
 
-        if(vehicleType.equals("car"))
-             parkings   = parkingRepository.findByLocationAndCityAndApprovedAndIsCarParkingAvailable(location,city,true, true);
-        else{
-            parkings = parkingRepository.findByLocationAndCityAndApprovedAndIsBikeParkingAvailable(location,city,true,true);
-        }
 
-        if(parkings.isEmpty()) return List.of();
+        WKTWriter wktWriter = new WKTWriter();
+        String searchPointWKT = wktWriter.write(searchPoint);
+        System.out.println(searchPointWKT+ ": this is search point pd");
+        List<Parking> parkingLots = parkingRepository.findNearByParkingLots(searchPointWKT,radius);
+        if(parkingLots.isEmpty())   return List.of();
 
-        List<ParkingDto> dtos = new ArrayList<>();
-        for(Parking p : parkings) dtos.add(ParkingMapper.toDto(p));
+        return parkingLots.stream().map(ParkingMapper:: toDto).collect(Collectors.toList());
 
-        return dtos;
-    }
-
-    @Override
-    public List<ParkingDto> getparking(String location, String city, String vehicleType) {
-        vehicleType = vehicleType.toLowerCase();
-
-        List<Parking> parkings = parkingRepository.searchParking(location,city,vehicleType);
-        if(parkings.isEmpty()) return List.of();
-
-        return parkings.stream().map(ParkingMapper::toDto).collect(Collectors.toList());
     }
 
 }

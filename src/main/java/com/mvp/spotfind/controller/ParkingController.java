@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +30,12 @@ public class ParkingController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ParkingDto> createParking(@Valid @RequestBody ParkingDto dto, @RequestParam Long id){
-        ParkingDto dto1 = service.createParking(dto,id);
-        return ResponseEntity.ok(dto1);
+    public ResponseEntity<String> createParking(@Valid @RequestBody ParkingDto dto, @RequestParam Long id){
+
+         service.createParking(dto,id);
+         return ResponseEntity.ok("Parking Created");
+
+
     }
 
     @GetMapping("/getAllParkingById")

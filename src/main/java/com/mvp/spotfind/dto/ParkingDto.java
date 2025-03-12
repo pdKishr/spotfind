@@ -1,6 +1,5 @@
 package com.mvp.spotfind.dto;
 
-import com.mvp.spotfind.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,15 +19,15 @@ public class ParkingDto {
     private String email;
     @NotNull @Length(min=10 ,max=10)
     private String mobileNumber;
-    @NotNull
+    @NotNull @Length(min=1)
     private String parkingName;
-    @NotNull
+    @NotNull @Length(min=1)
     private String  location;
-    @NotNull
+    @NotNull @Length(min=1)
     private String address;
-    @NotNull
+    @NotNull @Length(min=1)
     private String  city;
-    @NotNull
+    @NotNull @Length(min=1)
     private String  state;
     @NotNull
     private Boolean  isBikeParkingAvailable;
@@ -50,5 +49,10 @@ public class ParkingDto {
     private String  closeTime;
     private Integer availableBikeSpots;
     private Integer availableCarSpots;
-
+    @NotNull
+    private Double latitude;
+    @NotNull
+    private Double longitude;
+    @NotNull
+    private String pincode;
 }

@@ -6,12 +6,11 @@ import com.mvp.spotfind.dto.ParkingDto;
 import java.util.List;
 
 public interface ParkingService {
-    ParkingDto createParking(ParkingDto dto,Long owner_id);
+    void createParking(ParkingDto dto, Long owner_id);
     ParkingDto  updateParking(Long id , ParkingDto dto);
     ParkingDto  getParkingById(Long id);
     List<AdminParkingViewDto> getAllParking();
     List<ParkingDto> getAllApprovedParking();
     List<ParkingDto> getAllParkingById(Long id);
-    List<ParkingDto> getParkingByFilter(String location, String vehicleType , String city);
-    List<ParkingDto> getparking(String location , String city ,String vehicleType );
+    List<ParkingDto> getAllParkingByNearByLocation(Double latitude,Double longitude,Double radius);
 }
