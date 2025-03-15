@@ -15,8 +15,9 @@ public interface ParkingRepository extends JpaRepository<Parking,Long> {
     @Query(value = "SELECT * FROM parking_spots p " +
             "WHERE ST_DWithin( " +
             "ST_Transform(ST_SetSRID(ST_MakePoint(p.longitude, p.latitude), 4326), 3857), " +
-            "ST_Transform(ST_SetSRID(ST_GeomFromText(:searchPoint, 4326), 4326), 3857), " +
+            "ST_Transform(ST_GeomFromText(:searchPoint, 4326), 3857), " +  // Removed extra transformation
             ":radius)",
             nativeQuery = true)
-    List<Parking> findNearByParkingLots(@Param("searchPoint") String searchPointWKT , @Param("radius") double radius);
+    List<Parking> findNearByParkingLots(@Param("searchPoint") String searchPointWKT, @Param("radius") double radius);
+
 }
