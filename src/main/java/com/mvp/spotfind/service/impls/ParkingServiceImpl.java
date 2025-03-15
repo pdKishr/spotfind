@@ -145,7 +145,7 @@ public class ParkingServiceImpl implements ParkingService {
         if(parkingLots.isEmpty())   return List.of();
 
         return parkingLots.stream().map(ParkingMapper:: toDto).collect(Collectors.toList());
-*/
+*/ System.out.println(latitude+" "+longitude+" "+" "+radius );
          return List.of();
     }
 
