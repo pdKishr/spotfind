@@ -141,7 +141,7 @@ public class ParkingServiceImpl implements ParkingService {
 
         WKTWriter wktWriter = new WKTWriter();
         String searchPointWKT = wktWriter.write(searchPoint);
-        System.out.println(searchPointWKT+ ": this is search point pd");
+
         List<Parking> parkingLots = parkingRepository.findNearByParkingLots(searchPointWKT,radius);
         if(parkingLots.isEmpty())   return List.of();
 
