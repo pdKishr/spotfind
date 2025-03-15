@@ -135,9 +135,8 @@ public class ParkingServiceImpl implements ParkingService {
     @Override
     public List<ParkingDto> getAllParkingByNearByLocation(Double latitude, Double longitude, Double radius) {
 
-       Point searchPoint = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+    /*   Point searchPoint = geometryFactory.createPoint(new Coordinate(longitude, latitude));
         searchPoint.setSRID(4326);
-
 
         WKTWriter wktWriter = new WKTWriter();
         String searchPointWKT = wktWriter.write(searchPoint);
@@ -146,7 +145,8 @@ public class ParkingServiceImpl implements ParkingService {
         if(parkingLots.isEmpty())   return List.of();
 
         return parkingLots.stream().map(ParkingMapper:: toDto).collect(Collectors.toList());
-
+*/
+         return List.of();
     }
 
 }
